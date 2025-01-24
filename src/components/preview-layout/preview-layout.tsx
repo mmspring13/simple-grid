@@ -37,7 +37,7 @@ export const PreviewLayout = () => {
     <div className="grid grid-rows-[1fr_auto] h-full gap-y-6 min-w">
       {form.template === 'grid' && <PreviewGrid />}
       {form.template === 'masonry' && <PreviewMasonry />}
-      <div className="pb-4" style={{ width: templateWidth }}>
+      <div className="p-4" style={{ width: templateWidth }}>
         {form.navigation === 'load-more' && (
           <Button
             color="primary"
@@ -56,7 +56,9 @@ export const PreviewLayout = () => {
           <Pagination
             initialPage={pagination.currentPage}
             isDisabled={navigation.take >= notes.length}
-            className="sticky left-2 mb-4"
+            classNames={{
+              base: 'sticky left-2 mb-4 w-max',
+            }}
             total={pagination.pages}
             onChange={changePage}
           />
