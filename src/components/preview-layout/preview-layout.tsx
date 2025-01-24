@@ -6,10 +6,12 @@ import { PreviewGrid } from '../preview-grid';
 import { usePreviewStore } from '@/store/preview';
 import { useNotesStore } from '@/store/notes-api';
 import { PreviewMasonry } from '../preview-masonry';
+import { usePreview } from '@/hooks/usePreview';
 
 export const PreviewLayout = () => {
   const { form } = useBuilderStore();
   const { setNavigation, navigation } = usePreviewStore();
+  const { templateWidth } = usePreview();
   const { notes } = useNotesStore();
 
   const pagination = useMemo(() => {
@@ -18,29 +20,29 @@ export const PreviewLayout = () => {
     }
     const currentPage = Math.floor(navigation.skip / navigation.take) + 1;
 
-    const pages = Math.ceil(navigation.total / navigation.take);
+    const pages = Math.ceil(notes.length / navigation.take);
 
     return {
       currentPage,
       pages,
     };
-  }, [form.navigation, navigation.skip, navigation.take, navigation.total]);
+  }, [form.navigation, navigation, notes.length]);
 
   const changePage = (page: number) => {
-    setNavigation({ skip: page * navigation.take });
+    const take = form.columns * form.rows;
+    setNavigation({ skip: (page - 1) * take, take });
   };
 
   return (
     <div className="grid grid-rows-[1fr_auto] h-full gap-y-6 min-w">
-      <PreviewGrid />
-      {/* {form.template === 'grid' && <PreviewGrid />}
-      {form.template === 'masonry' && <PreviewMasonry />} */}
-      <div className="flex items-center justify-center pb-4">
+      {form.template === 'grid' && <PreviewGrid />}
+      {form.template === 'masonry' && <PreviewMasonry />}
+      <div className="pb-4" style={{ width: templateWidth }}>
         {form.navigation === 'load-more' && (
           <Button
             color="primary"
             isDisabled={navigation.take >= notes.length}
-            className="sticky left-2 right-2 margin-auto"
+            className="sticky left-2 mb-4"
             onPress={() =>
               setNavigation({
                 take: navigation.take + 24,
@@ -53,6 +55,8 @@ export const PreviewLayout = () => {
         {pagination && (
           <Pagination
             initialPage={pagination.currentPage}
+            isDisabled={navigation.take >= notes.length}
+            className="sticky left-2 mb-4"
             total={pagination.pages}
             onChange={changePage}
           />

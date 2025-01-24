@@ -2,11 +2,12 @@ import { usePreview } from '@/hooks/usePreview';
 import cn from 'classnames';
 import { PreviewCard } from '../preview-card';
 import { useBuilderStore } from '@/store/builder';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 
 export const PreviewGrid = () => {
   const { visibleNotes, cols, rows, templateWidth } = usePreview();
   const { form } = useBuilderStore();
+  const gridRef = useRef<HTMLDivElement>(null);
 
   const templateClassName = useMemo(() => {
     return cn(
@@ -16,34 +17,22 @@ export const PreviewGrid = () => {
     );
   }, [cols, rows]);
 
-  const previewCardClassName = useMemo(() => {}, []);
-
-  const isMasonry = form.template === 'masonry';
-
   return (
     <div
       className={templateClassName}
       style={{ width: templateWidth }}
-      id="grid"
+      ref={gridRef}
     >
-      {visibleNotes.map((note, i) => {
-        const row = Math.floor(i / cols);
-        const col = i - cols * row;
-        console.log('row^col', row, col);
+      {visibleNotes.map((note) => {
         return (
           <PreviewCard
             key={note.id}
-            // userId={note.userId}
-            userId={`${col} : ${row}`}
+            userId={note.userId}
             caption={note.caption}
             date={note.date}
             id={note.id}
             hoverable={form.cartStyle === 'hoverable'}
-            // className="h-full w-full"
-            className={cn('w-full', {
-              'h-max': isMasonry,
-              'h-full': !isMasonry,
-            })}
+            className="w-full h-full"
           />
         );
       })}

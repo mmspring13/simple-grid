@@ -21,8 +21,8 @@ export const useBuilderStore = create<{
 }>((set) => ({
   form: {
     columns: 4,
-    rows: 3,
-    template: 'masonry',
+    rows: 4,
+    template: 'grid',
     navigation: 'load-more',
     cartStyle: 'classic',
   },

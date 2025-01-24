@@ -1,5 +1,6 @@
 import { Card, CardBody, CardFooter, CardHeader } from '@heroui/card';
 import { Divider } from '@heroui/react';
+import { Ref } from 'react';
 
 export type PreviewCardProps = {
   id: string;
@@ -8,6 +9,7 @@ export type PreviewCardProps = {
   date: string;
   hoverable?: boolean;
   className?: string;
+  ref?: Ref<HTMLDivElement>;
 };
 
 export const PreviewCard = ({
@@ -17,15 +19,10 @@ export const PreviewCard = ({
   date,
   hoverable,
   className,
+  ref,
 }: PreviewCardProps) => {
   return (
-    <Card
-      className={className}
-      isHoverable={hoverable}
-      ref={(n) => {
-        console.log('nnn', n);
-      }}
-    >
+    <Card className={className} isHoverable={hoverable} ref={ref}>
       <CardHeader className="flex">
         <p>{caption}</p>
       </CardHeader>
