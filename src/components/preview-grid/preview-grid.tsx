@@ -5,7 +5,7 @@ import { useBuilderStore } from '@/store/builder';
 import { useMemo, useRef } from 'react';
 
 export const PreviewGrid = () => {
-  const { visibleNotes, cols, rows, templateWidth } = usePreview();
+  const { visibleNotes, cols, rows } = usePreview();
   const { form } = useBuilderStore();
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -18,11 +18,7 @@ export const PreviewGrid = () => {
   }, [cols, rows]);
 
   return (
-    <div
-      className={templateClassName}
-      style={{ width: templateWidth }}
-      ref={gridRef}
-    >
+    <div className={templateClassName} ref={gridRef}>
       {visibleNotes.map((note) => {
         return (
           <PreviewCard
