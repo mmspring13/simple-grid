@@ -42,7 +42,6 @@ export const useNotesStore = create<{
           response
         );
       }
-      // set(() => ({ notes: [...response, ...response, ...response] }));
       set(() => ({ notes: response }));
     } catch (error: unknown) {
       if (error instanceof NoteFetchError) {

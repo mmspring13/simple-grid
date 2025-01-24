@@ -95,12 +95,7 @@ export const BuilderForm = () => {
         value={rows}
         onChange={(value) => setRows(value as number)}
       />
-      <Button
-        type="submit"
-        className="w-full"
-        color="primary"
-        // isDisabled={disabled}
-      >
+      <Button type="submit" className="w-full" color="primary">
         Update
       </Button>
     </Form>
